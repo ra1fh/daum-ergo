@@ -17,7 +17,7 @@ download:
 		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/patch-2.4.21-rmk1.bz2 && \
 		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/patch-2.4.21-rmk1-gmc_daum.bz2 && \
 		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/config && \
-        wget -c http://www.daum-electronic.de/de/download/GPL/GPL/crosstool/crosstool-0.26.tar.gz && \
+		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/crosstool/crosstool-0.26.tar.gz && \
 		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/crosstool/gmc-crosstool-0.26.patch && \
 		wget -c http://www.kegel.com/crosstool/ptxdist-testing-20031113.tar.gz && \
 		wget -c https://ftp.gnu.org/gnu/make/make-3.81.tar.gz && \
@@ -32,7 +32,7 @@ download:
 build: download
 	mkdir -p $(DAUM_BUILD)
 	mkdir -p $(DAUM_PREFIX)
-    # build make
+        # build make
 	if ! [ -f $(DAUM_PREFIX)/bin/gmake ]; then \
 		cd $(DAUM_BUILD) && \
 			tar xvzf $(DAUM_SOURCE)/make-3.81.tar.gz && \
@@ -42,7 +42,7 @@ build: download
 				make install && \
 				ln -s make $(DAUM_PREFIX)/bin/gmake; \
 	fi
-    # prepare kernel source
+        # prepare kernel source
 	if ! [ -f $(DAUM_SOURCE)/gmc-2.4.21.tar.bz2 ]; then \
 		cd $(DAUM_SOURCE) && \
 			echo "extracting linux-2.4.21.tar.bz2" && \
