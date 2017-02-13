@@ -1,0 +1,15 @@
+diff -up linux-2.4.21/scripts/Configure.orig linux-2.4.21/scripts/Configure
+--- linux-2.4.21/scripts/Configure.orig	2017-02-12 13:23:31.183351997 +0100
++++ linux-2.4.21/scripts/Configure	2017-02-12 13:24:04.928446775 +0100
+@@ -543,9 +543,9 @@ if [ -f $DEFAULTS ]; then
+   echo "#"
+   echo "# Using defaults found in" $DEFAULTS
+   echo "#"
+-  . $DEFAULTS
++  . ./$DEFAULTS
+   sed -e 's/# \(CONFIG_[^ ]*\) is not.*/\1=n/' <$DEFAULTS >.config-is-not.$$
+-  . .config-is-not.$$
++  . ./.config-is-not.$$
+   rm .config-is-not.$$
+ else
+   echo "#"

@@ -1,0 +1,99 @@
+diff -up crosstool-0.26/all.sh.fedora crosstool-0.26/all.sh
+--- crosstool-0.26/all.sh.fedora	2017-02-12 15:35:08.459108864 +0100
++++ crosstool-0.26/all.sh	2017-02-12 15:35:08.461108873 +0100
+@@ -46,7 +46,7 @@ fi
+ # Change or override these to your taste.
+ TARBALLS_DIR=${TARBALLS_DIR-$TOP_DIR/tarballs}
+ RESULT_TOP=${RESULT_TOP-$TOP_DIR/result}
+-PREFIX=/usr/arm/$TOOLCOMBO
++PREFIX=$DAUM_PREFIX/$TOOLCOMBO
+ 
+ export TOOLCOMBO
+ export PREFIX
+diff -up crosstool-0.26/crosstool.sh.fedora crosstool-0.26/crosstool.sh
+--- crosstool-0.26/crosstool.sh.fedora	2004-01-16 21:37:06.000000000 +0100
++++ crosstool-0.26/crosstool.sh	2017-02-12 15:35:08.461108873 +0100
+@@ -230,7 +230,7 @@ mkdir -p build-gcc-core; cd build-gcc-co
+ # Use --with-local-prefix so older gccs don't look in /usr/local (http://gcc.gnu.org/PR10532)
+ 
+ if test '!' -f Makefile; then
+-    ${GCC_DIR}/configure --target=$TARGET --host=$HOST --prefix=$PREFIX \
++    CC=${DAUM_GCC} ${GCC_DIR}/configure --target=$TARGET --host=$HOST --prefix=$PREFIX \
+ 	--with-local-prefix=${SYSROOT} \
+ 	--disable-multilib \
+ 	--with-newlib \
+@@ -329,7 +329,7 @@ if test '!' -f Makefile; then
+     # only matters for gcc-3.2.x and later, I think
+     # --disable-nls to work around crash bug on ppc405, but also because embedded
+     # systems don't really need message catalogs...
+-    ${GCC_DIR}/configure --target=$TARGET --host=$HOST --prefix=$PREFIX \
++    CC=${DAUM_GCC} ${GCC_DIR}/configure --target=$TARGET --host=$HOST --prefix=$PREFIX \
+         ${GCC_EXTRA_CONFIG} \
+         $GCC_SYSROOT_ARG \
+ 	--with-local-prefix=${SYSROOT} \
+diff -up crosstool-0.26/demo.sh.fedora crosstool-0.26/demo.sh
+--- crosstool-0.26/demo.sh.fedora	2017-02-12 15:35:08.460108869 +0100
++++ crosstool-0.26/demo.sh	2017-02-12 15:35:08.461108873 +0100
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ set -ex
+-export TARBALLS_DIR=~/downloads
++export TARBALLS_DIR=$DAUM_SOURCE
+ 
+ # To use all.sh, just set the eight or nine environment variables it wants, then run it.
+ # Or better yet, read it, understand it, and *then* run it.
+@@ -50,7 +50,7 @@ export TARBALLS_DIR=~/downloads
+ # Arm9tdmi
+ # Worked earlier, have not yet verified in 0.26-pre3
+ #eval `cat arm9tdmi.dat gcc-3.3.2-glibc-2.3.2.dat` sh all.sh --notest
+-eval `cat gmc-arm9tdmi.dat gmc-gcc-3.3.2-glibc-2.3.2.dat` sh all.sh --notest
++eval `cat gmc-arm9tdmi.dat gmc-gcc-3.3.2-glibc-2.3.2.dat` sh all.sh --notest $*
+ #eval `cat arm9tdmi.dat gcc-3.2.3-glibc-2.3.2.dat`  sh all.sh --notest
+ 
+ # Cris
+diff -up crosstool-0.26/getandpatch.sh.fedora crosstool-0.26/getandpatch.sh
+--- crosstool-0.26/getandpatch.sh.fedora	2017-02-12 15:36:45.287541798 +0100
++++ crosstool-0.26/getandpatch.sh	2017-02-12 15:37:18.069688370 +0100
+@@ -109,7 +109,7 @@ mkdir -p $SRC_DIR $TARBALLS_DIR
+ # even if we're not building userland, let's grab it...
+ getUnpackAndPatch http://www.kegel.com/crosstool/$PTXDIST_DIR.tar.gz || getUnpackAndPatch http://www.pengutronix.de/software/ptxdist/$PTXDIST_DIR.tgz
+ 
+-getUnpackAndPatch $BINUTILS_URL/$BINUTILS_DIR.tar.bz2 || getUnpackAndPatch $BINUTILS_URL/$BINUTILS_DIR.tar.gz
++getUnpackAndPatch $BINUTILS_URL/$BINUTILS_DIR.tar.gz || getUnpackAndPatch $BINUTILS_URL/$BINUTILS_DIR.tar.bz2
+ # fixme: if it looks like a snapshot (e.g. 3.3-20030721), we should get it from ftp://gcc.gnu.org/pub/gcc/snapshots
+ case $GCC_DIR in
+    gcc-3.3-200*|gcc-3.4-200*)
+diff -up crosstool-0.26/gmc-arm9tdmi.dat.fedora crosstool-0.26/gmc-arm9tdmi.dat
+--- crosstool-0.26/gmc-arm9tdmi.dat.fedora	2017-02-12 15:35:08.460108869 +0100
++++ crosstool-0.26/gmc-arm9tdmi.dat	2017-02-12 15:35:08.461108873 +0100
+@@ -1,4 +1,4 @@
+-KERNELCONFIG=$PWD/gmc/arm.config
++KERNELCONFIG=$PWD/arm.config
+ TARGET=arm-9tdmi-linux-gnu
+ GCC_EXTRA_CONFIG="--with-cpu=arm9tdmi --enable-cxx-flags=-mcpu=arm9tdmi"
+ TARGET_CFLAGS="-O"
+diff -up crosstool-0.26/patches/glibc-2.3.2/glibc-2.3.2-version.patch.fedora crosstool-0.26/patches/glibc-2.3.2/glibc-2.3.2-version.patch
+--- crosstool-0.26/patches/glibc-2.3.2/glibc-2.3.2-version.patch.fedora	2017-02-12 15:35:08.461108873 +0100
++++ crosstool-0.26/patches/glibc-2.3.2/glibc-2.3.2-version.patch	2017-02-12 15:35:08.461108873 +0100
+@@ -0,0 +1,21 @@
++diff -up glibc-2.3.2/configure.gccversion glibc-2.3.2/configure
++--- glibc-2.3.2/configure.version	2017-01-21 12:42:43.802718718 +0100
+++++ glibc-2.3.2/configure	2017-01-21 12:45:47.090684936 +0100
++@@ -2274,6 +2274,8 @@ echo $ECHO_N "checking version of $CC...
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++     3.[2-9]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
+++    6.[2-9]*)
+++       ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
++   esac
++@@ -2333,7 +2335,7 @@ echo $ECHO_N "checking version of $MAKE.
++   ac_prog_version=`$MAKE --version 2>&1 | sed -n 's/^.*GNU Make[^0-9]*\([0-9][0-9.]*\).*$/\1/p'`
++   case $ac_prog_version in
++     '') ac_prog_version="v. ?.??, bad"; ac_verc_fail=yes;;
++-    3.79* | 3.[89]*)
+++    3.79* | 3.[89]*)
++        ac_prog_version="$ac_prog_version, ok"; ac_verc_fail=no;;
++     *) ac_prog_version="$ac_prog_version, bad"; ac_verc_fail=yes;;
++ 
