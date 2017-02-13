@@ -28,5 +28,5 @@ cd toolchain
 make
 ```
 
-The compiler will be installed into the ```arm``` directory in the
-source tree by default. Change DAUM_PREFIX to install somewhere else.
+The compiler will be installed into the `arm` directory in the
+source tree by default. Change `DAUM_PREFIX` to install somewhere else.
