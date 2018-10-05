@@ -12,10 +12,10 @@ on the
 The necessary files will be downloaded automatically during the build.
 
 Building the arm cross compiler (gcc-3.3.2) needs a pretty old host
-compiler. I've found the compat gcc 3.4 included in Fedora 25 to work
+compiler. I've found the compat gcc 3.4 included in Fedora 28 to work
 well for that purpose.
 
-Install prerequisites on Fedora 25:
+Install prerequisites on Fedora 28:
 
 ```
 sudo dnf install compat-gcc-34 flex bison
