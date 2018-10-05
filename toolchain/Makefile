@@ -37,6 +37,7 @@ build: download
 		cd $(DAUM_BUILD) && \
 			tar xvzf $(DAUM_SOURCE)/make-3.81.tar.gz && \
 			cd make-3.81 && \
+				patch -s -p1 -i $(DAUM_PATCHES)/make-3.81-fedora-28.patch && \
 				./configure --prefix=$(DAUM_PREFIX) && \
 				make && \
 				make install && \
@@ -63,7 +64,7 @@ build: download
 		tar xvzf $(DAUM_SOURCE)/crosstool-0.26.tar.gz && \
 		cd crosstool-0.26 && \
 			patch -b -z .gmc -s -i $(DAUM_SOURCE)/gmc-crosstool-0.26.patch -p1 && \
-			patch -b -z .fedora -s -i $(DAUM_PATCHES)/crosstool-0.26-fedora-25.patch -p1 && \
+			patch -b -z .fedora -s -i $(DAUM_PATCHES)/crosstool-0.26-fedora-28.patch -p1 && \
 			export DAUM_SOURCE=$(DAUM_SOURCE) && \
 			export DAUM_PREFIX=$(DAUM_PREFIX) && \
 			export DAUM_GCC=$(DAUM_GCC) && \

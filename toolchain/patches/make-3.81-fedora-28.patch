@@ -1,0 +1,12 @@
+diff -up make-3.81/glob/glob.c.orig make-3.81/glob/glob.c
+--- make-3.81/glob/glob.c.orig	2006-03-10 03:20:45.000000000 +0100
++++ make-3.81/glob/glob.c	2018-10-04 22:39:00.424718227 +0200
+@@ -207,7 +207,7 @@ my_realloc (p, n)
+ #endif /* __GNU_LIBRARY__ */
+ 
+ 
+-#if !defined __alloca && !defined __GNU_LIBRARY__
++#if !defined __alloca && defined __GNU_LIBRARY__
+ 
+ # ifdef	__GNUC__
+ #  undef alloca
