@@ -30,3 +30,10 @@ make
 
 The compiler will be installed into the `arm` directory in the
 source tree by default. Change `DAUM_PREFIX` to install somewhere else.
+
+## Control
+
+The control directory contains a remote control client that
+connects via TCP to port 51955 of the bike. This is work
+in progress.
+
