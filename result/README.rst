@@ -9,7 +9,7 @@ record files. The result files can be found on the SD-Card in
 Requirements
 ------------
 
-* `python <https://www.python.org>`_ (version 2.7, 3.7, 38)
+* `python <https://www.python.org>`_ (version 2.7, 3.7, 3.8)
 
 * `python-construct <https://pypi.python.org/pypi/construct>`_ (version 2.8)
 
