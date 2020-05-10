@@ -1,3 +1,4 @@
+
 resultread
 ==========
 
@@ -24,16 +25,17 @@ resultread
 Read and Print Daum Ergo Bike Result Files to CSV.
 
 ::
-	Usage:
-	    resultread [-r] [-i FILE] [-o FILE] [-l LIMIT]
 
-	Options:
-	    -h, --help               Show this.
-	        --version            Show version.
-	    -i, --input FILE         Input result file (default: stdin).
-	    -o, --output FILE        Output text file (default: stdout).
-	    -r, --raw                Output raw data in verbose format
-	    -l, --limit LIMIT        Limit of data points to print.
+   Usage:
+        resultread [-r] [-i FILE] [-o FILE] [-l LIMIT]
+
+    Options:
+        -h, --help               Show this.
+            --version            Show version.
+        -i, --input FILE         Input result file (default: stdin).
+        -o, --output FILE        Output text file (default: stdout).
+        -r, --raw                Output raw data in verbose format
+        -l, --limit LIMIT        Limit of data points to print.
 
 Example usage that reads a result file and prints the CVS header and
 maximum 5 data points:
