@@ -14,7 +14,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-'''Read and Print Daum Ergo Bike Result Files to CSV.
+'''Read Daum Ergo Bike result files and output as CSV.
 
 Usage:
     resultread [-r] [-i FILE] [-o FILE] [-l LIMIT]
