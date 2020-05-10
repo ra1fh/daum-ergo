@@ -37,3 +37,8 @@ The control directory contains a remote control client that
 connects via TCP to port 51955 of the bike. This is work
 in progress.
 
+## Result
+
+The result directory contains a converter and format specification for
+Daum Ergo Bike result records that are stored on the SD-Card.  The
+tool converts to CSV similar to emc2edit.
