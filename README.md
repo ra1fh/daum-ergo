@@ -12,16 +12,29 @@ on the
 The necessary files will be downloaded automatically during the build.
 
 Building the arm cross compiler (gcc-3.3.2) needs a pretty old host
-compiler. I've found the compat gcc 3.4 included in Fedora 28 to work
-well for that purpose.
-
-Install prerequisites on Fedora 28:
+compiler. The easiest way to get a suitable host compiler is to create
+a Debian Sarge chroot, which came with gcc-3.3:
 
 ```
-sudo dnf install compat-gcc-34 flex bison
+sudo debootstrap --arch=i386 sarge sarge-chroot
 ```
 
-The following step will build and install the cross compiler:
+A couple of prerequisites need to be installed within the chroot using
+dselect or similar:
+
+* bison
+* flex
+* gcc
+* make
+
+Outside the chroot, run the download target:
+
+```
+cd toolchain
+make download
+```
+
+Inside the Debian Sarge chroot, build and install the cross compiler:
 
 ```
 cd toolchain
