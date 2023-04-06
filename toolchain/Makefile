@@ -9,8 +9,8 @@ DAUM_PATCHES:= $(CURDIR)/patches
 
 default: build
 
-download: download.stamp
-download.stamp:
+download: $(DAUM_SOURCE)/download.stamp
+$(DAUM_SOURCE)/download.stamp:
 	if ! [ -e $(DAUM_SOURCE) ]; then \
 		mkdir $(DAUM_SOURCE); \
 		cd $(DAUM_SOURCE) && \
@@ -29,9 +29,9 @@ download.stamp:
 		true; \
 	fi
 	cd $(DAUM_SOURCE) && sha256sum -c ../sha256sum.txt
-	touch download.stamp
+	touch $(DAUM_SOURCE)/download.stamp
 
-build: download.stamp
+build: $(DAUM_SOURCE)/download.stamp
 	mkdir -p $(DAUM_BUILD)
 	mkdir -p $(DAUM_PREFIX)
         # build make
