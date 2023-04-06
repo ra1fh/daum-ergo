@@ -6,6 +6,7 @@ DAUM_PREFIX := $(CURDIR)/arm
 DAUM_SOURCE := $(CURDIR)/source
 DAUM_BUILD  := $(CURDIR)/build
 DAUM_PATCHES:= $(CURDIR)/patches
+DAUM_URL    := http://www.ergo-lyps.de/de/download/GPL
 
 default: build
 
@@ -14,12 +15,12 @@ $(DAUM_SOURCE)/download.stamp:
 	if ! [ -e $(DAUM_SOURCE) ]; then \
 		mkdir $(DAUM_SOURCE); \
 		cd $(DAUM_SOURCE) && \
-		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/linux-2.4.21.tar.bz2 && \
-		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/patch-2.4.21-rmk1.bz2 && \
-		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/patch-2.4.21-rmk1-gmc_daum.bz2 && \
-		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/kernel/config && \
-		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/crosstool/crosstool-0.26.tar.gz && \
-		wget -c http://www.daum-electronic.de/de/download/GPL/GPL/crosstool/gmc-crosstool-0.26.patch && \
+		wget -c $(DAUM_URL)/GPL/kernel/linux-2.4.21.tar.bz2 && \
+		wget -c $(DAUM_URL)/GPL/kernel/patch-2.4.21-rmk1.bz2 && \
+		wget -c $(DAUM_URL)/GPL/kernel/patch-2.4.21-rmk1-gmc_daum.bz2 && \
+		wget -c $(DAUM_URL)/GPL/kernel/config && \
+		wget -c $(DAUM_URL)/GPL/crosstool/crosstool-0.26.tar.gz && \
+		wget -c $(DAUM_URL)/GPL/crosstool/gmc-crosstool-0.26.patch && \
 		wget -c http://www.kegel.com/crosstool/ptxdist-testing-20031113.tar.gz && \
 		wget -c https://ftp.gnu.org/gnu/make/make-3.81.tar.gz && \
 		wget -c https://ftp.gnu.org/gnu/gcc/gcc-3.3.2.tar.gz && \
