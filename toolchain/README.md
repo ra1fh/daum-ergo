@@ -4,33 +4,54 @@ The toolchain subdirectory contains a Makefile to build a cross
 compiler for the Samsung S3C2410 SoC used by the control cockpit of
 the Daum Premium 8i indoor bike trainer. The source code is available
 on the
-[manufacturer's website](http://www.daum-electronic.de/de/download/GPL/).
-The necessary files will be downloaded automatically during the build and
-checked against known good SHA256 sums.
+[manufacturer's website](http://www.ergo-lyps.de/de/download/GPL/).
 
 ## Prerequisites
 
-Building the arm cross compiler (gcc-3.3.2) needs a pretty old host
-compiler. I've found the compat gcc 3.4 included in Fedora 28 to work
-well for that purpose.
+These instructions assume building on an x86_64 host using some recent
+version of Debian or Ubuntu. The actual build will be done in a
+chroot.
 
-Install prerequisites on Fedora 28:
+A few packages need to be installed on the build host:
 
 ```
-sudo dnf install compat-gcc-34 flex bison
+sudo apt-get install chrootuid debootstrap git libc6-i386 make wget
 ```
 
 ## Building
 
-The following step will build and install the cross compiler:
+Building the arm cross compiler (gcc-3.3.2) needs a similarly old host
+compiler. The easiest way to get that is creating a Debian Sarge chroot:
 
 ```
-cd toolchain
-make
+sudo debootstrap --arch=i386 sarge sarge-chroot http://archive.debian.org/debian
+sudo chroot sarge-chroot apt-get install bison bzip2 flex gcc libc6-dev make patch perl-modules
 ```
 
-The compiler will be installed into the `arm` directory in the
-source tree by default. Change `DAUM_PREFIX` to install somewhere else.
+Prepare the build directory within the chroot, checkout the repository
+and download additional source code:
+
+```
+sudo install -d -o $(id -u) -g $(id -g) sarge-chroot/daum-ergo
+git clone https://github.com/ra1fh/daum-ergo sarge-chroot/daum-ergo
+make -C sarge-chroot/daum-ergo/toolchain download
+```
+
+Move the source code into the chroot, enter the chroot and build the
+cross compiler:
+
+```
+sudo chrootuid -i ~/sarge-chroot $(id -un) /usr/bin/make -C daum-ergo/toolchain
+```
+
+The compiler will be installed in
+`sarge-chroot/daum-ergo/toolchain/arm`. It will work outside the
+chroot. You can check with:
+
+```
+sarge-chroot/daum-ergo/toolchain/arm/gcc-3.3.2-glibc-2.3.2/arm-9tdmi-linux-gnu/bin/gcc -dumpmachine
+# expected result: arm-9tdmi-linux-gnu
+```
 
 ## Usage
 
