@@ -24,32 +24,31 @@ Building the arm cross compiler (gcc-3.3.2) needs a similarly old host
 compiler. The easiest way to get that is creating a Debian Sarge chroot:
 
 ```
-sudo debootstrap --arch=i386 sarge sarge-chroot http://archive.debian.org/debian
-sudo chroot sarge-chroot apt-get install bison bzip2 flex gcc libc6-dev make patch perl-modules
+sudo debootstrap --arch=i386 sarge ~/sarge-chroot http://archive.debian.org/debian
+sudo chroot ~/sarge-chroot apt-get install bison bzip2 flex gcc libc6-dev make patch perl-modules
 ```
 
 Prepare the build directory within the chroot, checkout the repository
 and download additional source code:
 
 ```
-sudo install -d -o $(id -u) -g $(id -g) sarge-chroot/daum-ergo
-git clone https://github.com/ra1fh/daum-ergo sarge-chroot/daum-ergo
-make -C sarge-chroot/daum-ergo/toolchain download
+sudo install -d -o $(id -u) -g $(id -g) ~/sarge-chroot/daum-ergo
+git clone https://github.com/ra1fh/daum-ergo ~/sarge-chroot/daum-ergo
+make -C ~/sarge-chroot/daum-ergo/toolchain download
 ```
 
-Move the source code into the chroot, enter the chroot and build the
-cross compiler:
+Now enter the chroot and build the cross compiler:
 
 ```
 sudo chrootuid -i ~/sarge-chroot $(id -un) /usr/bin/make -C daum-ergo/toolchain
 ```
 
 The compiler will be installed in
-`sarge-chroot/daum-ergo/toolchain/arm`. It will work outside the
+`~/sarge-chroot/daum-ergo/toolchain/arm`. It will work outside the
 chroot. You can check with:
 
 ```
-sarge-chroot/daum-ergo/toolchain/arm/gcc-3.3.2-glibc-2.3.2/arm-9tdmi-linux-gnu/bin/gcc -dumpmachine
+~/sarge-chroot/daum-ergo/toolchain/arm/gcc-3.3.2-glibc-2.3.2/arm-9tdmi-linux-gnu/bin/gcc -dumpmachine
 # expected result: arm-9tdmi-linux-gnu
 ```
 
