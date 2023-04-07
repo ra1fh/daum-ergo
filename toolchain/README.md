@@ -25,7 +25,7 @@ compiler. The easiest way to get that is creating a Debian Sarge chroot:
 
 ```
 sudo debootstrap --arch=i386 sarge ~/sarge-chroot http://archive.debian.org/debian
-sudo chroot ~/sarge-chroot apt-get install bison bzip2 flex gcc libc6-dev make patch perl-modules
+sudo chroot ~/sarge-chroot apt-get -y install bison bzip2 file flex gcc libc6-dev make patch perl-modules
 ```
 
 Prepare the build directory within the chroot, checkout the repository
