@@ -52,6 +52,16 @@ chroot. You can check with:
 # expected result: arm-9tdmi-linux-gnu
 ```
 
+## Addons
+
+### GDB
+
+After successfully building the toolchain, gdb and gdbserver for ARM can be compiled:
+
+```
+sudo chrootuid -i ~/sarge-chroot $(id -un) /usr/bin/make -C daum-ergo/toolchain gdb
+```
+
 ## Usage
 
 With a working compiler toolchain it's easy to build additional
