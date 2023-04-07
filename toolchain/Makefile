@@ -4,7 +4,11 @@ DAUM_PREFIX := $(CURDIR)/arm
 DAUM_SOURCE := $(CURDIR)/source
 DAUM_BUILD  := $(CURDIR)/build
 DAUM_PATCHES:= $(CURDIR)/patches
-DAUM_URL    := http://www.ergo-lyps.de/de/download/GPL
+DAUM_URL    := https://web.archive.org/web/20160123151000/http://www.daum-electronic.de/de/download/GPL
+PTXDIST_URL := https://web.archive.org/web/20230407132744/http://www.kegel.com/
+
+# As of April 2023, Daum files are still available from the following
+# URL: http://www.ergo-lyps.de/de/download/GPL
 
 default: build
 
@@ -19,7 +23,7 @@ $(DAUM_SOURCE)/download.stamp:
 		wget -c $(DAUM_URL)/GPL/kernel/config && \
 		wget -c $(DAUM_URL)/GPL/crosstool/crosstool-0.26.tar.gz && \
 		wget -c $(DAUM_URL)/GPL/crosstool/gmc-crosstool-0.26.patch && \
-		wget -c http://www.kegel.com/crosstool/ptxdist-testing-20031113.tar.gz && \
+		wget -c $(PTXDIST_URL)/crosstool/ptxdist-testing-20031113.tar.gz && \
 		wget -c https://ftp.gnu.org/gnu/gcc/gcc-3.3.2.tar.gz && \
 		wget -c https://ftp.gnu.org/gnu/glibc/glibc-2.3.2.tar.bz2 && \
 		wget -c https://ftp.gnu.org/gnu/glibc/glibc-linuxthreads-2.3.2.tar.bz2 && \
@@ -49,7 +53,7 @@ build: $(DAUM_SOURCE)/download.stamp
 			rm -rf gmc-2.4.21; \
 	fi
 	cd $(DAUM_BUILD) && \
-		tar xvzf $(DAUM_SOURCE)/crosstool-0.26.tar.gz && \
+		tar xvf $(DAUM_SOURCE)/crosstool-0.26.tar.gz && \
 		cd crosstool-0.26 && \
 			patch -b -z .gmc -s -i $(DAUM_SOURCE)/gmc-crosstool-0.26.patch -p1 && \
 			patch -b -z .sarge -s -i $(DAUM_PATCHES)/crosstool-0.26-debian-sarge.patch -p1 && \

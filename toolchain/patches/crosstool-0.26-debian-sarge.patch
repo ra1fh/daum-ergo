@@ -30,3 +30,19 @@ diff -up crosstool-0.26/gmc-arm9tdmi.dat.sarge crosstool-0.26/gmc-arm9tdmi.dat
  TARGET=arm-9tdmi-linux-gnu
  GCC_EXTRA_CONFIG="--with-cpu=arm9tdmi --enable-cxx-flags=-mcpu=arm9tdmi"
  TARGET_CFLAGS="-O"
+diff -up crosstool-0.26/getandpatch.sh.sarge crosstool-0.26/getandpatch.sh
+--- crosstool-0.26/getandpatch.sh.sarge	2004-01-17 00:04:02.000000000 +0100
++++ crosstool-0.26/getandpatch.sh	2023-04-07 16:24:56.853497587 +0200
+@@ -43,7 +43,11 @@ getUnpackAndPatch() {
+ 	cd $SRC_DIR
+ 
+ 	if test $ZIP_METHOD = "gz" ; then
+-	    tar -xzvf $TARBALLS_DIR/$ARCHIVE_NAME || abort cannot unpack $TARBALLS_DIR/$ARCHIVE_NAME
++	    if test "$(file -ib $TARBALLS_DIR/$ARCHIVE_NAME  | cut -d, -f1)" = "application/x-tar"; then
++		tar -xvf $TARBALLS_DIR/$ARCHIVE_NAME || abort cannot unpack $TARBALLS_DIR/$ARCHIVE_NAME
++	    else
++		tar -xzvf $TARBALLS_DIR/$ARCHIVE_NAME || abort cannot unpack $TARBALLS_DIR/$ARCHIVE_NAME
++	    fi
+ 	elif test $ZIP_METHOD = "bz2"; then
+ 	    tar -xjvf $TARBALLS_DIR/$ARCHIVE_NAME || abort cannot unpack $TARBALLS_DIR/$ARCHIVE_NAME
+ 	else 
